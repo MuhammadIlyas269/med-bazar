@@ -1,4 +1,6 @@
 require("./utils/database");
+require("./models");
+
 const express = require("express");
 const homeRoutes = require("./routes/home");
 
