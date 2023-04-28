@@ -2,10 +2,11 @@ require("./utils/database");
 require("./models");
 
 const express = require("express");
-const homeRoutes = require("./routes/home");
+const routes = require("./routes");
 
 const app = express();
 
-app.use("/", homeRoutes);
+app.use(express.json());
+app.use("/", routes);
 
 app.listen(8000);

@@ -1,5 +1,6 @@
 const sequelize = require("../utils/database");
 const { DataTypes } = require("sequelize");
+const bcrypt = require("bcrypt");
 
 const User = sequelize.define("User", {
   id: {
@@ -22,9 +23,14 @@ const User = sequelize.define("User", {
   password: {
     type: DataTypes.STRING,
     allowNull: false,
+    set(value) {
+      const salt = bcrypt.genSaltSync(10);
+      const hash = bcrypt.hashSync(value, salt);
+      this.setDataValue("password", hash);
+    },
   },
   role: {
-    type: DataTypes.ENUM("admin", "salesman"),
+    type: DataTypes.ENUM("admin", "salesman", "superAdmin"),
     defaultValue: "salesman",
   },
 });
