@@ -1,4 +1,4 @@
-const { object, string, ema } = require("yup");
+const { object, string } = require("yup");
 
 const adminSignupSchema = object().shape({
   username: string().required(),
@@ -6,4 +6,9 @@ const adminSignupSchema = object().shape({
   password: string().min(5).max(20).required(),
 });
 
-module.exports = { adminSignupSchema };
+const loginSchema = object().shape({
+  username: string().required(),
+  password: string().required(),
+});
+
+module.exports = { adminSignupSchema, loginSchema };

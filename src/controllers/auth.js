@@ -1,5 +1,5 @@
 const db = require("../models");
-const { adminSignupSchema } = require("../utils/validation/auth");
+const { adminSignupSchema, loginSchema } = require("../utils/validation/auth");
 const validate = require("../utils/validate");
 
 async function adminSignup(req, res) {
@@ -26,4 +26,28 @@ async function adminSignup(req, res) {
   }
 }
 
-module.exports = { adminSignup };
+async function login(req, res) {
+  try {
+    const { username, password } = await validate(loginSchema, req.body);
+    const user = await db.User.findOne({ where: { username } });
+    if (!user) {
+      return res.status(400).json({ message: "Username is Incorrect" });
+    }
+    const isMatch = await user.verifyPassword(password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Password is Incorrect" });
+    }
+    const token = user.generateToken();
+    return res.status(200).json({ message: "Success", user, token });
+  } catch (e) {
+    let statusCode = 500;
+    let message = "Error in Login Controller";
+    if (e.name === "ValidationError") {
+      statusCode = 400;
+      message = e.message;
+    }
+    console.log(e);
+    return res.status(statusCode).json({ message });
+  }
+}
+module.exports = { adminSignup, login };
