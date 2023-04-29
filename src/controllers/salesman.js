@@ -62,4 +62,15 @@ async function getSalesman(req, res) {
   }
 }
 
-module.exports = { addSalesman, removeSalesman, getSalesman };
+async function getAllSalesman(req, res) {
+  try {
+    const salesmen = await db.User.findAll({ where: { role: "salesman" } });
+
+    return res.status(200).json({ message: "Success", salesmen });
+  } catch (e) {
+    return res.status(500).json({ message: "Error From removeSalesman API" });
+  }
+}
+
+// view password
+module.exports = { addSalesman, removeSalesman, getSalesman, getAllSalesman };
