@@ -39,8 +39,8 @@ async function removeSalesman(req, res) {
   try {
     const { id } = req.params;
 
-    const user = await db.User.destroy({ where: { id } });
-    if (!user) {
+    const salesman = await db.User.destroy({ where: { id } });
+    if (!salesman) {
       return res.status(400).json({ message: "Provide a valid Salesman Id" });
     }
     return res.status(200).json({ message: "Successfully Removed.." });
@@ -48,4 +48,18 @@ async function removeSalesman(req, res) {
     return res.status(500).json({ message: "Error From removeSalesman API" });
   }
 }
-module.exports = { addSalesman, removeSalesman };
+
+async function getSalesman(req, res) {
+  try {
+    const { id } = req.params;
+    const salesman = await db.User.findByPk(id);
+    if (!salesman) {
+      return res.status(400).json({ message: "Provide a valid salesman Id" });
+    }
+    return res.status(200).json({ message: "Success", salesman });
+  } catch (e) {
+    return res.status(500).json({ message: "Error From removeSalesman API" });
+  }
+}
+
+module.exports = { addSalesman, removeSalesman, getSalesman };
