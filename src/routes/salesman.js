@@ -6,5 +6,11 @@ const isAdmin = require("../middleware/is-admin");
 const router = express.Router();
 
 router.post("/add", isAuth, isAdmin, salesmanController.addSalesman);
+router.delete(
+  "/remove/:id",
+  isAuth,
+  isAdmin,
+  salesmanController.removeSalesman
+);
 
 module.exports = router;
