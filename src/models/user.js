@@ -45,7 +45,7 @@ User.prototype.verifyPassword = async function (password) {
 
 User.prototype.generateToken = function () {
   return jwt.sign(
-    { id: this.id, username: this.username },
+    { id: this.id, username: this.username, role: this.role },
     process.env.SECRET,
     { expiresIn: "23h" }
   );

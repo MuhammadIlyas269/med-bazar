@@ -38,6 +38,7 @@ async function login(req, res) {
       return res.status(400).json({ message: "Password is Incorrect" });
     }
     const token = user.generateToken();
+
     return res.status(200).json({ message: "Success", user, token });
   } catch (e) {
     let statusCode = 500;
@@ -50,4 +51,7 @@ async function login(req, res) {
     return res.status(statusCode).json({ message });
   }
 }
+
+// Password Change API
+
 module.exports = { adminSignup, login };
