@@ -1,6 +1,8 @@
 const db = require("../models");
 const { adminSignupSchema, loginSchema } = require("../utils/validation/auth");
 const validate = require("../utils/validate");
+const { HttpError } = require("../utils/custom-errors");
+const errorHandler = require("../utils/error-handler");
 
 async function adminSignup(req, res) {
   try {
@@ -18,11 +20,7 @@ async function adminSignup(req, res) {
 
     return res.status(200).json({ message: "User Created Successfully" });
   } catch (err) {
-    console.log("Error In adminSignup Controller: ", err);
-    if (err.name === "ValidationError") {
-      return res.status(400).json({ message: err.message });
-    }
-    return res.status(500).json({ message: "Error in adminSignup Controller" });
+    return errorHandler(res, err, { logKey: "Admin Signup" });
   }
 }
 
@@ -41,14 +39,7 @@ async function login(req, res) {
 
     return res.status(200).json({ message: "Success", user, token });
   } catch (e) {
-    let statusCode = 500;
-    let message = "Error in Login Controller";
-    if (e.name === "ValidationError") {
-      statusCode = 400;
-      message = e.message;
-    }
-    console.log(e);
-    return res.status(statusCode).json({ message });
+    return errorHandler(res, err, { logKey: "Login" });
   }
 }
 

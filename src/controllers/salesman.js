@@ -1,10 +1,11 @@
 const db = require("../models");
 const { salesmanSchema } = require("../utils/validation/salesman");
 const validate = require("../utils/validate");
+const { HttpError } = require("../utils/custom-errors");
+const errorHandler = require("../utils/error-handler");
 
 async function addSalesman(req, res) {
   try {
-    console.log("USer", req.user);
     const { username, password } = await validate(salesmanSchema, req.body);
 
     const [salesman, created] = await db.User.findOrCreate({
@@ -17,21 +18,16 @@ async function addSalesman(req, res) {
       },
     });
     if (!created) {
-      return res
-        .status(422)
-        .json({ message: `${salesman.username} is already exist` });
+      throw new HttpError({
+        message: `${salesman.username} is already exist`,
+        statusCode: 422,
+      });
     }
     return res
       .status(201)
       .json({ message: "Salesman created successfully", salesman });
-  } catch (e) {
-    let statusCode = 500;
-    let message = "Error in Create Salesman";
-    if (e.name === "ValidationError") {
-      statusCode = 422;
-      message = e.message;
-    }
-    return res.status(statusCode).json({ message });
+  } catch (err) {
+    return errorHandler(res, err, { logKey: "addSalesman" });
   }
 }
 
@@ -41,11 +37,14 @@ async function removeSalesman(req, res) {
 
     const salesman = await db.User.destroy({ where: { id } });
     if (!salesman) {
-      return res.status(400).json({ message: "Provide a valid Salesman Id" });
+      throw HttpError({
+        message: "Provide a valid Salesman Id",
+        statusCode: 400,
+      });
     }
     return res.status(200).json({ message: "Successfully Removed.." });
   } catch (e) {
-    return res.status(500).json({ message: "Error From removeSalesman API" });
+    return errorHandler(res, e, { logKey: "removeSalesman" });
   }
 }
 
@@ -54,11 +53,14 @@ async function getSalesman(req, res) {
     const { id } = req.params;
     const salesman = await db.User.findByPk(id);
     if (!salesman) {
-      return res.status(400).json({ message: "Provide a valid salesman Id" });
+      throw new HttpError({
+        message: "Provide a valid salesman Id",
+        statusCode: 400,
+      });
     }
     return res.status(200).json({ message: "Success", salesman });
   } catch (e) {
-    return res.status(500).json({ message: "Error From removeSalesman API" });
+    return errorHandler(res, e, { logKey: "getSalesman" });
   }
 }
 
@@ -68,7 +70,7 @@ async function getAllSalesman(req, res) {
 
     return res.status(200).json({ message: "Success", salesmen });
   } catch (e) {
-    return res.status(500).json({ message: "Error From removeSalesman API" });
+    return errorHandler(res, e, { logKey: "getAllSalesman" });
   }
 }
 
