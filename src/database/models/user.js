@@ -1,4 +1,4 @@
-const sequelize = require("../utils/database");
+const sequelize = require("../connection");
 const { DataTypes } = require("sequelize");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -50,4 +50,5 @@ User.prototype.generateToken = function () {
     { expiresIn: "23h" }
   );
 };
+
 module.exports = User;

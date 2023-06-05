@@ -1,28 +1,26 @@
 const jwt = require("jsonwebtoken");
-const { HttpError } = require("../utils/custom-errors");
-const errorHandler = require("../utils/error-handler");
+const { errorHandler } = require("../../utils/error_handling");
+const { UnAuthorized } = require("../../utils/error_handling/app-errors");
 require("dotenv").config();
 
 module.exports = async function authMiddleware(req, res, next) {
   try {
     const authToken = req.headers["authorization"];
     if (!authToken) {
-      throw new HttpError({
-        message: "Unauthorized - Headers are missing",
-        statusCode: 401,
+      throw new UnAuthorized({
+        message: "unauthorized - headers are missing",
       });
     }
     jwt.verify(authToken, process.env.SECRET, function (err, decoded) {
       if (err) {
-        throw new HttpError({
-          message: "Unauthorized - Headers are missing 1",
-          statusCode: 401,
+        throw new UnAuthorized({
+          message: "unauthorized - headers are missing",
         });
       }
       req.user = decoded;
       next();
     });
   } catch (err) {
-    return errorHandler(res, err);
+    return errorHandler(res, err, { logKey: "auth middleware error" });
   }
 };

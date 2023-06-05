@@ -1,12 +1,22 @@
-require("./utils/database");
-require("./models");
+require("dotenv").config();
+require("./database/connection");
+// require("./database/models/product");
 
 const express = require("express");
-const routes = require("./routes");
+const cors = require("cors");
+const allRoutes = require("./routes");
 
-const app = express();
+const StartServer = async () => {
+  const app = express();
+  const PORT = process.env.PORT;
 
-app.use(express.json());
-app.use("/", routes);
+  app.use(express.json());
+  app.use(cors());
+  app.use("/", allRoutes);
 
-app.listen(8000);
+  app.listen(PORT, () => {
+    console.log(`Server is listening at port ${PORT}`);
+  });
+};
+
+StartServer();
