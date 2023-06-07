@@ -27,6 +27,14 @@ class CompanyService {
     }
     return;
   }
+
+  async GetCompanyDetail({ id }) {
+    const company = await db.Company.findByPk(id);
+    if (!company) {
+      throw new BadRequest({ message: "invalid company id" });
+    }
+    return company;
+  }
 }
 
 module.exports = CompanyService;

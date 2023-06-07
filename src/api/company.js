@@ -30,4 +30,14 @@ async function updateCompany(req, res) {
   }
 }
 
-module.exports = { addCompany, updateCompany };
+async function companyDetail(req, res) {
+  try {
+    const id = req.params.id;
+    const company = await service.GetCompanyDetail({ id });
+    return res.status(200).json({ message: "success", data: { company } });
+  } catch (error) {
+    return errorHandler(res, error, { logKey: "companyDetail" });
+  }
+}
+
+module.exports = { addCompany, updateCompany, companyDetail };

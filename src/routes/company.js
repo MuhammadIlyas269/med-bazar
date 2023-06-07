@@ -7,5 +7,6 @@ const router = express.Router();
 
 router.post("/", isAuth, isAdmin, companyApi.addCompany); // add a new company
 router.put("/:id", isAuth, isAdmin, companyApi.updateCompany); // update company
+router.get("/:id", isAuth, isAdmin, companyApi.companyDetail); // get company detail
 
 module.exports = router;
