@@ -27,6 +27,7 @@ sequelize
     console.log("DB Sync");
   })
   .catch((err) => {
+    console.log(err.message);
     console.log("Error In DB Sync");
   });
 module.exports = sequelize;

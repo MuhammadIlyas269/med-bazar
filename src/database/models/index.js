@@ -1,3 +1,5 @@
-const User = require("./user");
-
-module.exports = { User };
+module.exports = {
+  User: require("./user"),
+  Company: require("./company"),
+  Product: require("./product"),
+};

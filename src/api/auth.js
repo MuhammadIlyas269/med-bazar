@@ -22,7 +22,7 @@ async function login(req, res) {
     const cleanFields = await validate(loginSchema, req.body);
     const { user, token } = await service.LoginUser({ ...cleanFields });
     return res.status(200).json({ message: "success", user, token });
-  } catch (e) {
+  } catch (err) {
     return errorHandler(res, err, { logKey: "Login" });
   }
 }
