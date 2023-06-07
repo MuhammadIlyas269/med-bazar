@@ -9,10 +9,25 @@ async function addCompany(req, res) {
   try {
     const cleanFields = await validate(companySchema, req.body);
     const company = await service.CreateCompany({ ...cleanFields });
-    return res.status(201).json({ message: "success", company });
+    return res.status(201).json({ message: "success", data: { company } });
   } catch (error) {
     return errorHandler(res, error, { logKey: "addCompany" });
   }
 }
 
-module.exports = { addCompany };
+async function updateCompany(req, res) {
+  try {
+    const cleanFields = await validate(companySchema, req.body);
+    const id = req.params.id;
+    await service.UpdateCompany(id, { ...cleanFields });
+    return res.status(200).json({ message: "updated", data: {} });
+  } catch (error) {
+    let message;
+    if (error.name === "SequelizeUniqueConstraintError") {
+      message = "company name is already exist";
+    }
+    return errorHandler(res, error, { logKey: "updateCompany", message });
+  }
+}
+
+module.exports = { addCompany, updateCompany };

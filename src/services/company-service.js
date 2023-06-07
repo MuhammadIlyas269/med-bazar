@@ -15,6 +15,18 @@ class CompanyService {
     });
     return company;
   }
+
+  async UpdateCompany(id, { name, creditBalance, debitBalance, address }) {
+    const company = await db.Company.update(
+      { name, creditBalance, debitBalance, address },
+      { where: { id } }
+    );
+    console.log(company);
+    if (company[0] !== 1) {
+      throw new BadRequest({ message: "invalid company id" });
+    }
+    return;
+  }
 }
 
 module.exports = CompanyService;
