@@ -13,6 +13,7 @@ module.exports = async function authMiddleware(req, res, next) {
     }
     jwt.verify(authToken, process.env.SECRET, function (err, decoded) {
       if (err) {
+        console.log(err);
         throw new UnAuthorized({
           message: "unauthorized - headers are missing",
         });

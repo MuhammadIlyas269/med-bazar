@@ -40,4 +40,12 @@ async function companyDetail(req, res) {
   }
 }
 
-module.exports = { addCompany, updateCompany, companyDetail };
+async function listCompanies(req, res) {
+  try {
+    const companies = await service.ListAllCompanies();
+    return res.status(200).json({ message: "success", data: { companies } });
+  } catch (error) {
+    return errorHandler(res, error, { logKey: "listCompanies" });
+  }
+}
+module.exports = { addCompany, updateCompany, companyDetail, listCompanies };

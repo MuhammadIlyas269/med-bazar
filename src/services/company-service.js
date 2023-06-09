@@ -35,6 +35,11 @@ class CompanyService {
     }
     return company;
   }
+
+  async ListAllCompanies() {
+    const companies = await db.Company.findAll();
+    return companies;
+  }
 }
 
 module.exports = CompanyService;
