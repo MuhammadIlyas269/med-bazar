@@ -1,4 +1,5 @@
 const db = require("../database/models");
+const { Op } = require("sequelize");
 const { BadRequest } = require("../utils/error_handling/app-errors");
 
 class ProductService {
@@ -81,7 +82,18 @@ class ProductService {
     await product.destroy();
   }
 
-  //   async Listing
+  async ProductListing({ name = "" }) {
+    let filterCondition = {};
+    if (name) {
+      filterCondition.where = {
+        name: {
+          [Op.substring]: name.trim(),
+        },
+      };
+    }
+    const products = await db.Product.findAll(filterCondition);
+    return products;
+  }
 }
 
 module.exports = ProductService;

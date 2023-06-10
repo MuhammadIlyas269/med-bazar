@@ -49,4 +49,21 @@ async function removeProduct(req, res) {
     return errorHandler(res, error, { logKey: "removeProduct" });
   }
 }
-module.exports = { addProduct, productDetail, editProduct, removeProduct };
+
+async function productListing(req, res) {
+  try {
+    const { name } = req.query;
+    const products = await service.ProductListing({ name });
+    return res.status(200).json({ message: "success", data: { products } });
+  } catch (error) {
+    return errorHandler(res, error, { logKey: "productListing" });
+  }
+}
+
+module.exports = {
+  addProduct,
+  productDetail,
+  editProduct,
+  removeProduct,
+  productListing,
+};
