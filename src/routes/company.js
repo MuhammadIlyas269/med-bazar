@@ -5,9 +5,9 @@ const isAdmin = require("../api/middleware/is-admin");
 
 const router = express.Router();
 
-router.post("/", isAuth, isAdmin, companyApi.addCompany); // add a new company
-router.get("/", isAuth, isAdmin, companyApi.listCompanies); // get companies list
-router.put("/:id", isAuth, isAdmin, companyApi.updateCompany); // update company
-router.get("/:id", isAuth, isAdmin, companyApi.companyDetail); // get company detail
+router.post("/", isAdmin, companyApi.addCompany); // add a new company
+router.get("/", companyApi.listCompanies); // get companies list
+router.put("/:id", isAdmin, companyApi.updateCompany); // update company
+router.get("/:id", companyApi.companyDetail); // get company detail
 
 module.exports = router;
