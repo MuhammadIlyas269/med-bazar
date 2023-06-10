@@ -33,7 +33,7 @@ async function editProduct(req, res) {
   try {
     const id = req.params.id;
     const cleanFields = await validate(productSchema, req.body);
-    await service.Update(id, { ...cleanFields });
+    await service.UpdateProduct(id, { ...cleanFields });
     return res.status(200).json({ message: "updated", data: {} });
   } catch (error) {
     return errorHandler(res, error, { logKey: "editProduct" });
@@ -43,7 +43,7 @@ async function editProduct(req, res) {
 async function removeProduct(req, res) {
   try {
     const id = req.params.id;
-    await service.Remove(id);
+    await service.RemoveProduct(id);
     return res.status(200).json({ message: "success", data: {} });
   } catch (error) {
     return errorHandler(res, error, { logKey: "removeProduct" });

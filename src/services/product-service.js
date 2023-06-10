@@ -38,7 +38,7 @@ class ProductService {
     return product;
   }
 
-  async Update(
+  async UpdateProduct(
     id,
     {
       name,
@@ -75,11 +75,13 @@ class ProductService {
     }
   }
 
-  async Remove(id) {
+  async RemoveProduct(id) {
     const product = await db.Product.findByPk(id);
     if (!product) throw new BadRequest({ message: "invalid product id" });
     await product.destroy();
   }
+
+  //   async Listing
 }
 
 module.exports = ProductService;
