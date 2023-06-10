@@ -37,7 +37,7 @@ const Product = sequelize.define("Product", {
     type: DataTypes.DOUBLE,
     defaultValue: 0,
   },
-  saleTax: {
+  salesTax: {
     type: DataTypes.DOUBLE,
     allowNull: false,
   },
