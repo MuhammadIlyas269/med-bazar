@@ -31,6 +31,49 @@ class ProductService {
     await company.addCompanyProduct(product);
     return product;
   }
+
+  async GetProductDetail(id) {
+    const product = await db.Product.findByPk(id);
+    if (!product) throw new BadRequest({ message: "invalid product id" });
+    return product;
+  }
+
+  async Update(
+    id,
+    {
+      name,
+      packSize,
+      rate,
+      tradePrice,
+      salePrice,
+      bonus,
+      discount,
+      salesTax,
+      boxSize,
+    }
+  ) {
+    const product = await db.Product.update(
+      {
+        name,
+        packSize,
+        rate,
+        tradePrice,
+        salePrice,
+        bonus,
+        discount,
+        salesTax,
+        boxSize,
+      },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+    if (product[0] !== 1) {
+      throw new BadRequest({ message: "invalid product id" });
+    }
+  }
 }
 
 module.exports = ProductService;

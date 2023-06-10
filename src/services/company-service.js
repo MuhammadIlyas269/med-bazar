@@ -21,7 +21,6 @@ class CompanyService {
       { name, creditBalance, debitBalance, address },
       { where: { id } }
     );
-    console.log(company);
     if (company[0] !== 1) {
       throw new BadRequest({ message: "invalid company id" });
     }

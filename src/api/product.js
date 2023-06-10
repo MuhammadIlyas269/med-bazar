@@ -19,4 +19,24 @@ async function addProduct(req, res) {
   }
 }
 
-module.exports = { addProduct };
+async function productDetail(req, res) {
+  try {
+    const id = req.params.id;
+    const product = await service.GetProductDetail(id);
+    return res.status(201).json({ message: "success", data: { product } });
+  } catch (error) {
+    return errorHandler(res, error, { logKey: "productDetail" });
+  }
+}
+
+async function editProduct(req, res) {
+  try {
+    const id = req.params.id;
+    const cleanFields = await validate(productSchema, req.body);
+    await service.Update(id, { ...cleanFields });
+    return res.status(200).json({ message: "updated", data: {} });
+  } catch (error) {
+    return errorHandler(res, error, { logKey: "editProduct" });
+  }
+}
+module.exports = { addProduct, productDetail, editProduct };
