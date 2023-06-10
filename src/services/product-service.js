@@ -74,6 +74,12 @@ class ProductService {
       throw new BadRequest({ message: "invalid product id" });
     }
   }
+
+  async Remove(id) {
+    const product = await db.Product.findByPk(id);
+    if (!product) throw new BadRequest({ message: "invalid product id" });
+    await product.destroy();
+  }
 }
 
 module.exports = ProductService;
