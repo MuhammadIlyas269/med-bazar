@@ -9,9 +9,10 @@ const PurchaseOrder = sequelize.define("PurchaseOrder", {
     defaultValue: DataTypes.UUIDV4,
   },
   invoiceNo: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: DataTypes.INTEGER,
     unique: true,
+    autoIncrement: true,
+    start: 1000,
   },
   isUpdated: {
     type: DataTypes.BOOLEAN,
