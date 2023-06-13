@@ -11,11 +11,7 @@ async function addProduct(req, res) {
     const product = await service.CreateProduct({ ...cleanFields });
     return res.status(201).json({ message: "success", data: { product } });
   } catch (error) {
-    let message;
-    if (error.name === "SequelizeUniqueConstraintError") {
-      message = "product name already exist";
-    }
-    return errorHandler(res, error, { logKey: "addProduct", message });
+    return errorHandler(res, error, { logKey: "addProduct" });
   }
 }
 
