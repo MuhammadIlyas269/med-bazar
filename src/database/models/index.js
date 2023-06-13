@@ -4,4 +4,5 @@ module.exports = {
   Product: require("./product-model"),
   Purchase: require("./purchase-model"),
   PurchaseOrder: require("./purchase-order-model"),
+  Inventory: require("./inventory-model"),
 };
