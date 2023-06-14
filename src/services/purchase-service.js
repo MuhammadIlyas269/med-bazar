@@ -1,5 +1,6 @@
 const sequelize = require("../database/connection");
 const db = require("../database/models");
+const { Op } = require("sequelize");
 const { ApiError } = require("../utils/error_handling/app-errors");
 
 class PurchaseService {
@@ -29,6 +30,21 @@ class PurchaseService {
       t.rollback();
       throw new ApiError({ message: "something bad happen in purchaseOrder" });
     }
+  }
+
+  async purchaseOrderList({ invoiceNo = "" }) {
+    let filterCondition = {};
+    if (invoiceNo) {
+      filterCondition.where = {
+        invoiceNo: {
+          [Op.startsWith]: invoiceNo.trim(),
+        },
+      };
+    }
+    const purchaseOrders = await db.PurchaseOrder.findAll(filterCondition, {
+      order: [["createdAt", "DESC"]],
+    });
+    return purchaseOrders;
   }
 }
 

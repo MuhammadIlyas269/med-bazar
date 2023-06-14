@@ -18,4 +18,16 @@ async function addPurchaseOrder(req, res) {
   }
 }
 
-module.exports = { addPurchaseOrder };
+async function listPurchaseOrder(req, res) {
+  try {
+    const { invoiceNo } = req.query;
+    const purchaseOrders = await service.purchaseOrderList({ invoiceNo });
+    return res
+      .status(200)
+      .json({ message: "success", data: { purchaseOrders } });
+  } catch (error) {
+    return errorHandler(res, error, { logKey: "listPurchaseOrder" });
+  }
+}
+
+module.exports = { addPurchaseOrder, listPurchaseOrder };
