@@ -36,7 +36,7 @@ Product.hasMany(Purchase, {
 
 PurchaseOrder.hasMany(Purchase, {
   foreignKey: "purchaseOrderId",
-  as: "purchaseInvoice",
+  as: "purchases",
   onDelete: "SET NULL",
 });
 

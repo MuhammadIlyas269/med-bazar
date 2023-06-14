@@ -46,6 +46,28 @@ class PurchaseService {
     });
     return purchaseOrders;
   }
+
+  async purchaseOrderDetail(id) {
+    const purchaseOrder = await db.PurchaseOrder.findByPk(id, {
+      attributes: ["id"],
+      include: [
+        {
+          model: db.Purchase,
+          as: "purchases",
+          attributes: [
+            "id",
+            "productName",
+            "rate",
+            "quantity",
+            "total",
+            "productId",
+          ],
+        },
+      ],
+    });
+    // const purchaseOrder = await purchaseOrder.getPurchaseInvoice();
+    return purchaseOrder.purchases;
+  }
 }
 
 module.exports = PurchaseService;

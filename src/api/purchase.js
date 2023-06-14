@@ -30,4 +30,16 @@ async function listPurchaseOrder(req, res) {
   }
 }
 
-module.exports = { addPurchaseOrder, listPurchaseOrder };
+async function purchaseOrderDetail(req, res) {
+  try {
+    const id = req.params.id;
+    const purchaseOrder = await service.purchaseOrderDetail(id);
+    return res
+      .status(200)
+      .json({ message: "success", data: { purchaseOrder } });
+  } catch (error) {
+    return errorHandler(res, error, { logKey: "purchase order detail Api" });
+  }
+}
+
+module.exports = { addPurchaseOrder, listPurchaseOrder, purchaseOrderDetail };
