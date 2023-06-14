@@ -2,6 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../connection");
 const Product = require("./product-model");
 const PurchaseOrder = require("./purchase-order-model");
+const Inventory = require("./inventory-model");
 
 const Purchase = sequelize.define("Purchase", {
   id: {
@@ -37,6 +38,44 @@ PurchaseOrder.hasMany(Purchase, {
   foreignKey: "purchaseOrderId",
   as: "purchaseInvoice",
   onDelete: "SET NULL",
+});
+
+Purchase.afterBulkCreate(async function (purchases, options) {
+  const products = await Product.findAll({
+    where: { id: purchases.map((purchase) => purchase.productId) },
+    include: {
+      model: Inventory,
+      attributes: ["id", "balance"],
+    },
+    attributes: ["id"],
+  });
+
+  const inventoryList = products.map((product) => {
+    if (product.Inventory?.id) {
+      return {
+        id: product.Inventory.id,
+        productId: product.id,
+        balance: product.Inventory.balance,
+      };
+    }
+  });
+
+  const stockUpdateBalance = purchases.map((purchase) => {
+    const inventoryObj = inventoryList.find(
+      (inventory) => inventory.productId === purchase.productId
+    );
+
+    return {
+      id: inventoryObj.id,
+      productId: purchase.productId,
+      balance: purchase.quantity + inventoryObj.balance,
+      godownBalance: 0,
+    };
+  });
+
+  await Inventory.bulkCreate(stockUpdateBalance, {
+    updateOnDuplicate: ["balance", "godownBalance"],
+  });
 });
 
 module.exports = Purchase;
