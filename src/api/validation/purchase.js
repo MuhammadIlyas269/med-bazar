@@ -9,6 +9,7 @@ const purchaseSchema = object().shape({
 
 const purchaseOrderSchema = object().shape({
   orderList: array().of(purchaseSchema).required(),
+  remarks: string(),
 });
 
 module.exports = { purchaseSchema, purchaseOrderSchema };

@@ -4,13 +4,18 @@ const { Op } = require("sequelize");
 const { ApiError } = require("../utils/error_handling/app-errors");
 
 class PurchaseService {
-  async CreatePurchase(salesmanId, { orderList }) {
+  async CreatePurchase(salesmanId, { remarks, orderList }) {
     const t = await sequelize.transaction();
+    const purchaseOrderArgs = {
+      salesmanId,
+    };
+    if (remarks) {
+      purchaseOrderArgs.remarks = remarks;
+    }
     try {
-      const purchaseOrder = await db.PurchaseOrder.create(
-        { salesmanId },
-        { transaction: t }
-      );
+      const purchaseOrder = await db.PurchaseOrder.create(purchaseOrderArgs, {
+        transaction: t,
+      });
       const id = purchaseOrder.id;
 
       orderList.map((purchase) => {

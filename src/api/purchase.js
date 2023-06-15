@@ -42,4 +42,7 @@ async function purchaseOrderDetail(req, res) {
   }
 }
 
+// delete purchase Order to update
+// Trash Bin API
+
 module.exports = { addPurchaseOrder, listPurchaseOrder, purchaseOrderDetail };

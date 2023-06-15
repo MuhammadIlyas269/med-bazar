@@ -14,9 +14,8 @@ const PurchaseOrder = sequelize.define("PurchaseOrder", {
     autoIncrement: true,
     start: 1000,
   },
-  isUpdated: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
+  remarks: {
+    type: DataTypes.STRING,
   },
   updatedBy: {
     type: DataTypes.STRING,
