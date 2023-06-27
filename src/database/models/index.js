@@ -5,4 +5,6 @@ module.exports = {
   Purchase: require("./purchase-model"),
   PurchaseOrder: require("./purchase-order-model"),
   Inventory: require("./inventory-model"),
+  Sale: require("./sale-model"),
+  SalesOrder: require("./sale-order-model"),
 };

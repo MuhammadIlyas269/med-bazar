@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../connection");
 const User = require("./user-model");
 
-const PurchaseOrder = sequelize.define("PurchaseOrder", {
+const SalesOrder = sequelize.define("SaleOrder", {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -20,12 +20,20 @@ const PurchaseOrder = sequelize.define("PurchaseOrder", {
   updatedBy: {
     type: DataTypes.STRING,
   },
+  warranty: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  title: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
 });
 
-User.hasMany(PurchaseOrder, {
+User.hasMany(SalesOrder, {
   foreignKey: "salesmanId",
-  as: "purchaseOrder",
+  as: "salesOrders",
   onDelete: "SET NULL",
 });
 
-module.exports = PurchaseOrder;
+module.exports = SalesOrder;
