@@ -1,7 +1,7 @@
 const sequelize = require("../database/connection");
 const db = require("../database/models");
 const { Op } = require("sequelize");
-const { ApiError } = require("../utils/error_handling/app-errors");
+const { ApiError, BadRequest } = require("../utils/error_handling/app-errors");
 
 class PurchaseService {
   async CreatePurchase(salesmanId, { remarks, orderList }) {
@@ -71,6 +71,8 @@ class PurchaseService {
       ],
     });
     // const purchaseOrder = await purchaseOrder.getPurchaseInvoice();
+    if (!purchaseOrder)
+      throw new BadRequest({ message: "purchase order doesn't exist " });
     return purchaseOrder.purchases;
   }
 }
