@@ -1,5 +1,6 @@
 const sequelize = require("../database/connection");
 const db = require("../database/models");
+const { Op } = require("sequelize");
 const { ApiError } = require("../utils/error_handling/app-errors");
 
 class SaleService {
@@ -43,6 +44,21 @@ class SaleService {
       t.rollback();
       throw new ApiError({ message: "something bad happen in saleOrder" });
     }
+  }
+
+  async saleOrderList({ invoiceNo = "" }) {
+    let filterCondition = {};
+    if (invoiceNo) {
+      filterCondition.where = {
+        invoiceNo: {
+          [Op.startsWith]: invoiceNo.trim(),
+        },
+      };
+    }
+    const salesOrders = await db.SalesOrder.findAll(filterCondition, {
+      order: [["createdAt", "DESC"]],
+    });
+    return salesOrders;
   }
 }
 

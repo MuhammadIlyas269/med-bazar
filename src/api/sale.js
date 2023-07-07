@@ -18,7 +18,17 @@ async function addSales(req, res) {
   }
 }
 
+async function listSalesOrder(req, res) {
+  try {
+    const { invoiceNo } = req.query;
+    const salesOrders = await service.saleOrderList({ invoiceNo });
+    return res.status(200).json({ message: "success", data: { salesOrders } });
+  } catch (error) {
+    return errorHandler(res, error, { logKey: "listSalesOrder" });
+  }
+}
+
 // delete Sales Order to update
 // Trash Bin API
 
-module.exports = { addSales };
+module.exports = { addSales, listSalesOrder };
