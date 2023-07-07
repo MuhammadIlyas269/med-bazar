@@ -60,6 +60,31 @@ class SaleService {
     });
     return salesOrders;
   }
+
+  async saleOrderDetail(id) {
+    const saleOrder = await db.SalesOrder.findByPk(id, {
+      attributes: ["id"],
+      include: [
+        {
+          model: db.Sale,
+          as: "sales",
+          attributes: [
+            "id",
+            "productName",
+            "rate",
+            "quantity",
+            "total",
+            "productId",
+            "discount",
+          ],
+        },
+      ],
+    });
+    // const purchaseOrder = await purchaseOrder.getPurchaseInvoice();
+    if (!saleOrder)
+      throw new BadRequest({ message: "sale order doesn't exist " });
+    return saleOrder.sales;
+  }
 }
 
 module.exports = SaleService;

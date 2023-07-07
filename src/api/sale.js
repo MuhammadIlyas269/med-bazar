@@ -28,7 +28,17 @@ async function listSalesOrder(req, res) {
   }
 }
 
+async function saleOrderDetail(req, res) {
+  try {
+    const id = req.params.id;
+    const saleOrder = await service.saleOrderDetail(id);
+    return res.status(200).json({ message: "success", data: { saleOrder } });
+  } catch (error) {
+    return errorHandler(res, error, { logKey: "sale order detail Api" });
+  }
+}
+
 // delete Sales Order to update
 // Trash Bin API
 
-module.exports = { addSales, listSalesOrder };
+module.exports = { addSales, listSalesOrder, saleOrderDetail };
