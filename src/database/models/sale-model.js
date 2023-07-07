@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection");
 const Product = require("./product-model");
+const Inventory = require("./inventory-model");
 const SalesOrder = require("./sale-order-model");
 
 const Sale = sequelize.define("Sale", {
@@ -41,6 +42,46 @@ SalesOrder.hasMany(Sale, {
   foreignKey: "saleOrderId",
   as: "sales",
   onDelete: "SET NULL",
+});
+
+Sale.afterBulkCreate(async function (sales, options) {
+  const products = await Product.findAll({
+    where: { id: sales.map((sale) => sale.productId) },
+    include: {
+      model: Inventory,
+      attributes: ["id", "balance", "godownBalance"],
+    },
+    attributes: ["id"],
+  });
+
+  // console.log("Products");
+  const inventoryList = products.map((product) => {
+    if (product.Inventory?.id) {
+      return {
+        id: product.Inventory.id,
+        productId: product.id,
+        balance: product.Inventory.balance,
+        godownBalance: product.Inventory.godownBalance,
+      };
+    }
+  });
+
+  const stockUpdateBalance = sales.map((sale) => {
+    const inventoryObj = inventoryList.find(
+      (inventory) => inventory.productId === sale.productId
+    );
+
+    return {
+      id: inventoryObj.id,
+      productId: sale.productId,
+      balance: inventoryObj.balance - sale.quantity,
+      godownBalance: inventoryObj.godownBalance,
+    };
+  });
+
+  await Inventory.bulkCreate(stockUpdateBalance, {
+    updateOnDuplicate: ["balance", "godownBalance"],
+  });
 });
 
 module.exports = Sale;

@@ -5,6 +5,7 @@ const usersRoutes = require("./users-routes");
 const companyRoutes = require("./company-routes");
 const productRoutes = require("./product-routes");
 const purchaseRoutes = require("./purchase-routes");
+const saleRoutes = require("./sale-routes");
 
 const isAuth = require("../api/middleware/is-auth");
 
@@ -15,5 +16,6 @@ router.use("/users", isAuth, usersRoutes);
 router.use("/companies", isAuth, companyRoutes);
 router.use("/products", isAuth, productRoutes);
 router.use("/purchases", isAuth, purchaseRoutes);
+router.use("/sales", isAuth, saleRoutes);
 
 module.exports = router;
