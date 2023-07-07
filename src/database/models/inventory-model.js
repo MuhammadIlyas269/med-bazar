@@ -19,5 +19,6 @@ const Inventory = sequelize.define("Inventory", {
 });
 
 Product.hasOne(Inventory, { foreignKey: "productId", onDelete: "CASCADE" });
+Inventory.belongsTo(Product, { foreignKey: "productId" });
 
 module.exports = Inventory;
