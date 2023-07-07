@@ -45,7 +45,7 @@ Purchase.afterBulkCreate(async function (purchases, options) {
     where: { id: purchases.map((purchase) => purchase.productId) },
     include: {
       model: Inventory,
-      attributes: ["id", "balance"],
+      attributes: ["id", "balance", "godownBalance"],
     },
     attributes: ["id"],
   });
@@ -56,6 +56,7 @@ Purchase.afterBulkCreate(async function (purchases, options) {
         id: product.Inventory.id,
         productId: product.id,
         balance: product.Inventory.balance,
+        godownBalance: product.Inventory.godownBalance,
       };
     }
   });
@@ -69,7 +70,7 @@ Purchase.afterBulkCreate(async function (purchases, options) {
       id: inventoryObj.id,
       productId: purchase.productId,
       balance: purchase.quantity + inventoryObj.balance,
-      godownBalance: 0,
+      godownBalance: inventoryObj.godownBalance,
     };
   });
 
