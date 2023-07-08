@@ -9,5 +9,6 @@ router.get("/", productApi.productListing); // add a new product
 router.get("/:id", productApi.productDetail); // get product detail
 router.put("/:id", isAdmin, productApi.editProduct); // update product
 router.delete("/:id", isAdmin, productApi.removeProduct); // remove product
+router.get("/company/:id", productApi.companyProductListing); // get all company products
 
 module.exports = router;

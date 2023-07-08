@@ -120,6 +120,18 @@ class ProductService {
     const products = await db.Product.findAll(filterCondition);
     return products;
   }
+
+  async companyProductListing(companyId) {
+    const products = await db.Product.findAll({
+      where: { companyId },
+      attributes: ["id", "name", "packSize", "rate", "boxSize"],
+      include: {
+        model: db.Inventory,
+        attributes: ["id", "balance", "godownBalance"],
+      },
+    });
+    return products;
+  }
 }
 
 module.exports = ProductService;

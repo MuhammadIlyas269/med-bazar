@@ -56,10 +56,21 @@ async function productListing(req, res) {
   }
 }
 
+async function companyProductListing(req, res) {
+  try {
+    const companyId = req.params.id;
+    const products = await service.companyProductListing(companyId);
+    return res.status(200).json({ message: "success", data: products });
+  } catch (error) {
+    return errorHandler(res, error, { logKey: "companyProductListing" });
+  }
+}
+
 module.exports = {
   addProduct,
   productDetail,
   editProduct,
   removeProduct,
   productListing,
+  companyProductListing,
 };
