@@ -7,4 +7,6 @@ module.exports = {
   Inventory: require("./inventory-model"),
   Sale: require("./sale-model"),
   SalesOrder: require("./sale-order-model"),
+  InventoryHistory: require("./inventory-history-model"),
+  ProductHistory: require("./product-history-model"),
 };
