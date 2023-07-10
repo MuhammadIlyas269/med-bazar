@@ -18,12 +18,12 @@ async function issueToGodown(req, res) {
   try {
     const cleanFields = await validate(stockListSchema, req.body);
 
-    const result = await service.addInventory({
+    await service.addInventory({
       ...cleanFields,
       userId: req.user.id,
     });
 
-    return res.status(200).json({ message: "success", data: result });
+    return res.status(200).json({ message: "success" });
   } catch (error) {
     return errorHandler(res, error, { logKey: "issueToGodown API" });
   }
@@ -33,9 +33,12 @@ async function receiveFromGodown(req, res) {
   try {
     const cleanFields = await validate(stockListSchema, req.body);
 
-    const result = await service.receiveInventory({ ...cleanFields });
+    await service.receiveInventory({
+      ...cleanFields,
+      userId: req.user.id,
+    });
 
-    return res.status(200).json({ message: "success", data: result });
+    return res.status(200).json({ message: "success" });
   } catch (error) {
     return errorHandler(res, error, { logKey: "issueToGodown API" });
   }
