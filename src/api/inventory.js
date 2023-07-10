@@ -43,4 +43,22 @@ async function receiveFromGodown(req, res) {
     return errorHandler(res, error, { logKey: "issueToGodown API" });
   }
 }
-module.exports = { getProductInventory, issueToGodown, receiveFromGodown };
+
+async function getUserInventoryHistory(req, res) {
+  try {
+    const userId = req.params.id;
+
+    const history = await service.getInventoryHistory(userId);
+
+    return res.status(200).json({ message: "success", data: history });
+  } catch (error) {
+    return errorHandler(res, error, { logKey: "getUserInventoryHistory API" });
+  }
+}
+
+module.exports = {
+  getProductInventory,
+  issueToGodown,
+  receiveFromGodown,
+  getUserInventoryHistory,
+};

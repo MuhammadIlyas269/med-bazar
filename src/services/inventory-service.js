@@ -151,6 +151,11 @@ class InventoryService {
       });
     }
   }
+
+  async getInventoryHistory(userId) {
+    const history = await db.InventoryHistory.findAll({ where: { userId } });
+    return history;
+  }
 }
 
 module.exports = InventoryService;
