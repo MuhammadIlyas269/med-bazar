@@ -18,7 +18,10 @@ async function issueToGodown(req, res) {
   try {
     const cleanFields = await validate(stockListSchema, req.body);
 
-    const result = await service.addInventory({ ...cleanFields });
+    const result = await service.addInventory({
+      ...cleanFields,
+      userId: req.user.id,
+    });
 
     return res.status(200).json({ message: "success", data: result });
   } catch (error) {

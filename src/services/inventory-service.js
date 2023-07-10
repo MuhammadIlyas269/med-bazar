@@ -1,4 +1,6 @@
+const sequelize = require("../database/connection");
 const db = require("../database/models");
+const { BadRequest, ApiError } = require("../utils/error_handling/app-errors");
 
 class InventoryService {
   async getInventory() {
@@ -14,7 +16,7 @@ class InventoryService {
   }
 
   // stock transfer to godown
-  async addInventory({ stockList }) {
+  async addInventory({ stockList, userId }) {
     const inventory = await db.Inventory.findAll({
       where: { productId: stockList.map((record) => record.id) },
       attributes: {
@@ -28,16 +30,55 @@ class InventoryService {
         return stock.id === record.productId;
       });
 
+      const balance = record.balance - stockRecord.quantity;
+      if (balance < 0)
+        throw new BadRequest({ message: "product is insufficient" });
+
       return {
         ...record,
-        balance: record.balance - stockRecord.quantity,
+        balance,
         godownBalance: record.godownBalance + stockRecord.quantity,
       };
     });
 
-    const update = await db.Inventory.bulkCreate(updatedStock, {
-      updateOnDuplicate: ["balance", "godownBalance"],
+    const productHistoryRecords = stockList.map((record) => {
+      return {
+        quantity: record.quantity,
+        productId: record.id,
+      };
     });
+
+    const transaction = await sequelize.transaction();
+    try {
+      const createdInventoryHistory = await db.InventoryHistory.create(
+        { userId, issue: true },
+        { transaction }
+      );
+
+      const createdProductHistories =
+        await db.InventoryProductHistory.bulkCreate(productHistoryRecords, {
+          transaction,
+        });
+
+      // associate inventory history to product history
+      await createdInventoryHistory.setProductHistory(createdProductHistories, {
+        transaction,
+      });
+
+      // update inventory shop and godown balance
+      await db.Inventory.bulkCreate(
+        updatedStock,
+        {
+          updateOnDuplicate: ["balance", "godownBalance"],
+        },
+        { transaction }
+      );
+      transaction.commit();
+    } catch (error) {
+      transaction.rollback();
+      console.log("Transaction Error", error);
+      throw new ApiError({ message: "something bad happen in add inventory" });
+    }
   }
 
   // stock receive from godown
