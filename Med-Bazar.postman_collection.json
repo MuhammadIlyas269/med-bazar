@@ -340,7 +340,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Porduct 1\",\r\n  \"packSize\": 12,\r\n  \"rate\": 14.50,\r\n  \"tradePrice\": 20.15,\r\n  \"salePrice\": 10.10,\r\n  \"salesTax\": 10.10,\r\n  \"boxSize\": 20,\r\n  \"companyId\": \"3a719303-166a-473d-992e-63f6f15ca654\"\r\n}",
+							"raw": "{\r\n  \"name\": \"Porduct 2\",\r\n  \"packSize\": 12,\r\n  \"rate\": 15,\r\n  \"tradePrice\": 20.15,\r\n  \"salePrice\": 10.10,\r\n  \"salesTax\": 10.10,\r\n  \"boxSize\": 20,\r\n  \"companyId\": \"7ee8e677-4414-407e-8ebf-7c76c7504ea3\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -478,6 +478,33 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "company product listing",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/products/company/336cd1dd-3121-4cee-9081-915b46ba80be",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"products",
+								"company",
+								"336cd1dd-3121-4cee-9081-915b46ba80be"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -497,7 +524,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"orderList\":[{\r\n    \"productName\":\"Product 2\",\r\n    \"rate\":10.5,\r\n    \"quantity\":3,\r\n    \"productId\":\"d546c50f-f68b-44fa-b71c-f9a74b28e6dc\"\r\n}]\r\n}",
+							"raw": "{\r\n    \"orderList\":[{\r\n    \"productName\":\"Product 4\",\r\n    \"rate\":10,\r\n    \"quantity\":10,\r\n    \"productId\":\"605f85c0-7b99-4418-86a8-1312b527a035\"\r\n},\r\n{\r\n    \"productName\":\"Product 1\",\r\n    \"rate\":10,\r\n    \"quantity\":15,\r\n    \"productId\":\"4c8923f2-2189-4d68-a446-c26ba369747f\"\r\n},\r\n{\r\n    \"productName\":\"Product 2\",\r\n    \"rate\":12,\r\n    \"quantity\":5,\r\n    \"productId\":\"775c2de0-78b0-4c22-9a34-cb3e34253ac8\"\r\n}\r\n],\r\n\"remarks\":\"Purchase Module is done\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -555,7 +582,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8000/purchases/236041ee-c52c-4cea-adcb-f80f42e4ef80",
+							"raw": "http://localhost:8000/purchases/2de1855e4-fb37-468b-a381-6e4ceb2b2105",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -563,7 +590,272 @@
 							"port": "8000",
 							"path": [
 								"purchases",
-								"236041ee-c52c-4cea-adcb-f80f42e4ef80"
+								"2de1855e4-fb37-468b-a381-6e4ceb2b2105"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sales",
+			"item": [
+				{
+					"name": "Add Sales Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderList\":[{\r\n    \"productName\":\"Product 3\",\r\n    \"rate\":10,\r\n    \"quantity\":1,\r\n    \"productId\":\"6e99c93b-12d0-4806-8040-931262516a50\",\r\n    \"discount\":50\r\n},\r\n{\r\n    \"productName\":\"Product 3\",\r\n    \"rate\":10,\r\n    \"quantity\":1,\r\n    \"productId\":\"6e99c93b-12d0-4806-8040-931262516a50\",\r\n    \"discount\":20\r\n},\r\n{\r\n    \"productName\":\"Product 2\",\r\n    \"rate\":12,\r\n    \"quantity\":2,\r\n    \"productId\":\"af077818-761a-40cf-824d-f58de63caa35\",\r\n    \"discount\":50\r\n}\r\n],\r\n\"remarks\":\"Purchase Module is done\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/sales",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"sales"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Sales Order",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/sales",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"sales"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sale Order Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/sales/95c231e7-90f2-442e-bffe-87fbe37ff97c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"sales",
+								"95c231e7-90f2-442e-bffe-87fbe37ff97c"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventory",
+			"item": [
+				{
+					"name": "Get Inventory",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/inventory",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"inventory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Issue to godown",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"stockList\": [\r\n        {\r\n            \"id\": \"605f85c0-7b99-4418-86a8-1312b527a035\",\r\n            \"quantity\": \"1\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/inventory/stock/issue",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"inventory",
+								"stock",
+								"issue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "receive from godown",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"stockList\": [\r\n        {\r\n            \"id\": \"605f85c0-7b99-4418-86a8-1312b527a035\",\r\n            \"quantity\": \"1\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/inventory/stock/receive",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"inventory",
+								"stock",
+								"receive"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Inventory Histories",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"stockList\": [\r\n        {\r\n            \"id\": \"605f85c0-7b99-4418-86a8-1312b527a035\",\r\n            \"quantity\": \"1\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/inventory/histories/users/b2f8f9db-c369-4513-9075-9b75460c2324",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"inventory",
+								"histories",
+								"users",
+								"b2f8f9db-c369-4513-9075-9b75460c2324"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Product History",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"stockList\": [\r\n        {\r\n            \"id\": \"605f85c0-7b99-4418-86a8-1312b527a035\",\r\n            \"quantity\": \"1\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/inventory/histories/70a32d61-4439-4414-a888-0c4f53ce76b0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"inventory",
+								"histories",
+								"70a32d61-4439-4414-a888-0c4f53ce76b0"
 							]
 						}
 					},
