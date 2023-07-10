@@ -109,7 +109,9 @@ class ProductService {
   }
 
   async ProductListing({ name = "" }) {
-    let filterCondition = {};
+    let filterCondition = {
+      order: [["name", "ASC"]],
+    };
     if (name) {
       filterCondition.where = {
         name: {
