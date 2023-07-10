@@ -25,4 +25,16 @@ async function issueToGodown(req, res) {
     return errorHandler(res, error, { logKey: "issueToGodown API" });
   }
 }
-module.exports = { getProductInventory, issueToGodown };
+
+async function receiveFromGodown(req, res) {
+  try {
+    const cleanFields = await validate(stockListSchema, req.body);
+
+    const result = await service.receiveInventory({ ...cleanFields });
+
+    return res.status(200).json({ message: "success", data: result });
+  } catch (error) {
+    return errorHandler(res, error, { logKey: "issueToGodown API" });
+  }
+}
+module.exports = { getProductInventory, issueToGodown, receiveFromGodown };
