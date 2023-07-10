@@ -56,9 +56,24 @@ async function getUserInventoryHistory(req, res) {
   }
 }
 
+async function getInventoryHistoryDetail(req, res) {
+  try {
+    const inventoryHistoryId = req.params.id;
+
+    const history = await service.getInventoryProductHistory(
+      inventoryHistoryId
+    );
+
+    return res.status(200).json({ message: "success", data: history });
+  } catch (error) {
+    return errorHandler(res, error, { logKey: "getUserInventoryHistory API" });
+  }
+}
+
 module.exports = {
   getProductInventory,
   issueToGodown,
   receiveFromGodown,
   getUserInventoryHistory,
+  getInventoryHistoryDetail,
 };

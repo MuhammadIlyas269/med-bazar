@@ -156,6 +156,16 @@ class InventoryService {
     const history = await db.InventoryHistory.findAll({ where: { userId } });
     return history;
   }
+
+  async getInventoryProductHistory(inventoryHistoryId) {
+    const history = await db.InventoryProductHistory.findAll({
+      where: { inventoryHistoryId },
+      attributes: {
+        exclude: ["inventoryHistoryId", "id"],
+      },
+    });
+    return history;
+  }
 }
 
 module.exports = InventoryService;
